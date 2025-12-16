@@ -14,6 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -93,6 +94,16 @@ func main() {
 
 	// kicking off Gin in value r
 	r := gin.Default()
+
+	// cors
+	r.Use(cors.New(cors.Config{
+	    AllowOrigins:     []string{"*"},
+	    AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+	    AllowHeaders:     []string{"Authorization", "Content-Type"},
+	    ExposeHeaders:    []string{"Content-Length", "API-Version"},
+	    AllowCredentials: false,
+	    MaxAge:           12 * time.Hour,
+	}))
 
 	// gin middleware to enable GZIP support
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
