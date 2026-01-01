@@ -41,6 +41,7 @@ func TeslaMateAPIGlobalsettingsV1(c *gin.Context) {
 		TeslaMateUnits TeslaMateUnits `json:"teslamate_units"`  // struct
 		TeslaMateGUI   TeslaMateGUI   `json:"teslamate_webgui"` // struct
 		TeslaMateURLs  TeslaMateURLs  `json:"teslamate_urls"`   // struct
+		Version        string         `json:"version"`          // string
 	}
 	// Data struct - child of JSONData
 	type Data struct {
@@ -82,6 +83,8 @@ func TeslaMateAPIGlobalsettingsV1(c *gin.Context) {
 		&globalSetting.TeslaMateURLs.BaseURL,
 		&globalSetting.TeslaMateURLs.GrafanaURL,
 	)
+
+	globalSetting.Version = apiVersion
 
 	switch err {
 	case sql.ErrNoRows:

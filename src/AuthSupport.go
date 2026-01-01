@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -102,4 +103,16 @@ func checkAuthToken(token string) bool {
 	// failing check what so ever..
 	log.Println("[info] checkAuthToken - returning false (other reason)")
 	return false
+}
+
+// authMiddleware func - Gin middleware for authentication
+func authMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		validToken, errorMessage := validateAuthToken(c)
+		if !validToken {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": errorMessage})
+			return
+		}
+		c.Next()
+	}
 }

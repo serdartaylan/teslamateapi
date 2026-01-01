@@ -176,6 +176,14 @@ More detailed documentation of every endpoint will come..
     - `minDistance` (optional, filter by minimum trip distance, units based on TeslaMate settings)
     - `maxDistance` (optional, filter by maximum trip distance, units based on TeslaMate settings)
 - GET `/api/v1/cars/:CarID/drives/:DriveID`
+- GET `/api/v1/cars/:CarID/parkings`
+  - Supported parameters:
+    - `startDate` (optional, use canonical UTC format in RFC3339)
+    - `endDate` (optional, use canonical UTC format in RFC3339)
+    - `hours` (optional, integer, parking minimum duration in hours)
+- GET `/api/v1/cars/:CarID/positions`
+    - `startDate` (optional, use canonical UTC format in RFC3339)
+    - `endDate` (optional, use canonical UTC format in RFC3339)
 - PUT `/api/v1/cars/:CarID/logging/:Command`
 - GET `/api/v1/cars/:CarID/logging`
 - GET `/api/v1/cars/:CarID/status`
@@ -191,7 +199,7 @@ More detailed documentation of every endpoint will come..
 
 ### Authentication
 
-If you want to use command or logging endpoints such as `/api/v1/cars/:CarID/command/:Command`, `/api/v1/cars/:CarID/wake_up`, or `/api/v1/cars/:CarID/logging/:Command` you need to add authentication to your request.
+All endpoints that interact with TeslaMate require authentication.
 
 You need to specify a token yourself (called **API_TOKEN**) in the environment variables file, to set it. The token has the requirement to be a minimum of 32 characters long.
 

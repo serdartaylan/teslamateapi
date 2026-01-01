@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.0.0] - 2026-01-01
+
+### Added
+
+- feat: add CORS support for API endpoints
+- feat: add new `/api/v1/cars/:CarID/parkings` endpoint for parking data
+- feat: add new `/api/v1/cars/:CarID/positions` endpoint for position history
+- feat: add `version` field to globalsettings endpoint response
+- ci: add GitHub Actions CI workflow for build and test
+- ci: add Docker Build & Push workflow for automated container publishing
+- ci: add Dependabot configuration for automated dependency updates
+
+### Changed
+
+- refactor: centralize authentication via middleware for v1 API routes
+  - Add authMiddleware() function in AuthSupport.go
+  - Apply middleware to /api/v1 route group in webserver.go
+  - Remove redundant validateAuthToken() calls from handler files
+  - Clean up unused net/http imports
+- ci: remove legacy build.yml and codeql-analysis.yml workflows
+- deps: update go.mod dependencies
+
+### Breaking Changes
+
+- Authentication is now handled via centralized middleware instead of per-handler validation
+
 ## [1.23.0] - 2025-10-30
 
 ### Added

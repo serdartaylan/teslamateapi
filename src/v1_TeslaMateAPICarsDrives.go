@@ -181,7 +181,7 @@ func TeslaMateAPICarsDrivesV1(c *gin.Context) {
 		LEFT JOIN positions end_position ON end_position_id = end_position.id
 		LEFT JOIN geofences start_geofence ON start_geofence_id = start_geofence.id
 		LEFT JOIN geofences end_geofence ON end_geofence_id = end_geofence.id
-		WHERE drives.car_id=$1 AND end_date IS NOT NULL`
+		WHERE drives.car_id=$1 AND end_date IS NOT NULL AND start_km IS NOT NULL AND end_km IS NOT NULL`
 
 	// Parameters to be passed to the query
 	var queryParams []any

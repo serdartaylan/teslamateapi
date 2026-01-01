@@ -14,6 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -94,6 +95,14 @@ func main() {
 	// kicking off Gin in value r
 	r := gin.Default()
 
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Authorization", "Content-Type"},
+		ExposeHeaders:    []string{"API-Version"},
+		AllowCredentials: false,
+	}))
+
 	// gin middleware to enable GZIP support
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
@@ -125,6 +134,7 @@ func main() {
 
 		// TeslaMateApi /api/v1 endpoints
 		v1 := api.Group("/v1")
+		v1.Use(authMiddleware())
 		{
 			// TeslaMateApi /api/v1 root
 			v1.GET("/", func(c *gin.Context) {
@@ -150,6 +160,12 @@ func main() {
 			// v1 /api/v1/cars/:CarID/drives endpoints
 			v1.GET("/cars/:CarID/drives", TeslaMateAPICarsDrivesV1)
 			v1.GET("/cars/:CarID/drives/:DriveID", TeslaMateAPICarsDrivesDetailsV1)
+
+			// v1 /api/v1/cars/:CarID/parkings endpoints
+			v1.GET("/cars/:CarID/parkings", TeslaMateAPICarsParkingsV1)
+
+			// v1 /api/v1/cars/:CarID/positions endpoints
+			v1.GET("/cars/:CarID/positions", TeslaMateAPICarsPositionsV1)
 
 			// v1 /api/v1/cars/:CarID/logging endpoints
 			v1.GET("/cars/:CarID/logging", TeslaMateAPICarsLoggingV1)

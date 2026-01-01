@@ -287,7 +287,7 @@ func TeslaMateAPICarsDrivesDetailsV1(c *gin.Context) {
 						battery_heater_on,
 						battery_heater_no_power
 		 			FROM positions
-		 			WHERE drive_id = $1
+		 			WHERE drive_id = $1 AND power IS NOT NULL
 		 			ORDER BY id ASC;`
 	rows, err := db.Query(query, DriveID)
 
